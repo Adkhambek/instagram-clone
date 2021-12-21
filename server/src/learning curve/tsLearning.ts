@@ -146,7 +146,12 @@
 //     role: 1
 // }
 
-console.log(admin);
+// console.log(admin);
+
+// function identity<Type>(arg: Type): Type {
+//     return arg;
+//   }
+// let output = identity<string>("myString");
 
 
 
