@@ -1,30 +1,13 @@
-import mongoose from "mongoose";
-import connectDB from "./lib/database";
-
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, "username required"],
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: [true, "password required"],
-    },
-    followers: {
-        type: Number,
-        default: 0,
-    },
-});
-
-const User = mongoose.model("User", userSchema);
+import connectDB from "./utils/database";
+import UserModel from "./models/UserModel";
 
 (async function () {
     await connectDB();
-    const testUser = new User({
-        username: "Adham",
+    const newUser = new UserModel({
+        email: "muzaffarov.adham@gmail.com",
+        fullName: "Muzaffarov Adham",
+        username: "Heaven_8",
         password: "heaven12345678",
     });
-
-    await testUser.save();
+    await newUser.save();
 })();
