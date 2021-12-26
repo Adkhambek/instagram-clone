@@ -1,3 +1,9 @@
+scalar Date
+
 type Query {
-    users: [Users]
+    users: [Users]!
+}
+
+type Mutation {
+    createAccount(user: UserCreateInput!): UserId!
 }

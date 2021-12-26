@@ -1,6 +1,25 @@
-type Users {
+interface Timestamps {
+    createdAt: Date!
+    updatedAt: Date!
+}
+
+type Users implements Timestamps {
+    _id: String
     email: String
     fullName: String
     username: String
     password: String
+    createdAt: Date!
+    updatedAt: Date!
+}
+
+type UserId {
+    _id: String
+}
+
+input UserCreateInput {
+    email: String!
+    fullName: String
+    username: String!
+    password: String!
 }

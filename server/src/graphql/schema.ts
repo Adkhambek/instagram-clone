@@ -1,4 +1,3 @@
-import "graphql-import-node";
 import { join } from "path";
 import { readdirSync, readFileSync } from "fs";
 import { makeExecutableSchema } from "@graphql-tools/schema";

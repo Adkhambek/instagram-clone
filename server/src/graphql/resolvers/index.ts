@@ -1,8 +1,11 @@
-import { userQueries } from "./user";
+import { userQueries, accountMutations } from "./user";
 
 const resolvers = {
     Query: {
         ...userQueries,
+    },
+    Mutation: {
+        ...accountMutations,
     },
 };
 

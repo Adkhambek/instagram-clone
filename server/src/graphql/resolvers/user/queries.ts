@@ -1,9 +1,7 @@
 import UserModel from "../../../models/UserModel";
 
 const userQueries = {
-    users: async () => {
-        return UserModel.find();
-    },
+    users: async () => UserModel.find(),
 };
 
 export default userQueries;
