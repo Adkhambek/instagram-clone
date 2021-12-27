@@ -13,9 +13,9 @@ type Users implements Timestamps {
     updatedAt: Date!
 }
 
-type UserId {
+type Token {
     status: Int!
-    id: String
+    token: String
     error: String
 }
 

@@ -1,5 +1,6 @@
 import UserModel from "../../../models/UserModel";
 import bcrypt from "../../../utils/bcrypt";
+import jwt from "../../../utils/jwt";
 
 const accountMutations = {
     createAccount: async (_: any, args: any) => {
@@ -12,7 +13,7 @@ const accountMutations = {
         });
         return {
             status: 201,
-            id: newUser._id,
+            token: "Bearer " + jwt.sign(newUser._id),
         };
     },
     loginAccount: async (_: any, args: any) => {
@@ -32,10 +33,10 @@ const accountMutations = {
                 error: "Wrong password",
             };
         }
-
+        console.log(account._id.toJSON());
         return {
             status: 200,
-            id: account._id,
+            token: "Bearer " + jwt.sign(account._id),
         };
     },
 };

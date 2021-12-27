@@ -24,10 +24,12 @@
         "express": "^4.17.2",
         "graphql": "^15.8.0",
         "http": "^0.0.1-security",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.1.2"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
+        "@types/jsonwebtoken": "^8.5.6",
         "@types/morgan": "^1.9.3",
         "@types/node": "^17.0.1",
         "copy-and-watch": "^0.1.6",
