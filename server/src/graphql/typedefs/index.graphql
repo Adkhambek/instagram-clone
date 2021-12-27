@@ -6,4 +6,5 @@ type Query {
 
 type Mutation {
     createAccount(user: UserCreateInput!): UserId!
+    loginAccount(user: UserLoginInput!): UserId!
 }

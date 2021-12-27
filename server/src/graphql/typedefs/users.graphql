@@ -14,12 +14,19 @@ type Users implements Timestamps {
 }
 
 type UserId {
-    _id: String
+    status: Int!
+    id: String
+    error: String
 }
 
 input UserCreateInput {
     email: String!
     fullName: String
     username: String!
+    password: String!
+}
+
+input UserLoginInput {
+    email: String!
     password: String!
 }

@@ -19,6 +19,7 @@
         "@graphql-tools/schema": "^8.3.1",
         "@types/graphql": "^14.5.0",
         "apollo-server-express": "^3.5.0",
+        "bcrypt": "^5.0.1",
         "dotenv": "^10.0.0",
         "express": "^4.17.2",
         "graphql": "^15.8.0",
@@ -26,6 +27,7 @@
         "mongoose": "^6.1.2"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
         "@types/morgan": "^1.9.3",
         "@types/node": "^17.0.1",
         "copy-and-watch": "^0.1.6",
