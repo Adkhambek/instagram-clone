@@ -3,7 +3,7 @@ import bcrypt from "../../../utils/bcrypt";
 import jwt from "../../../utils/jwt";
 
 const accountMutations = {
-    createAccount: async (_: any, args: any) => {
+    createAccount: async (_, args) => {
         const { email, fullName, username, password } = args.user;
         const newUser = await UserModel.create({
             email,
@@ -16,28 +16,33 @@ const accountMutations = {
             token: "Bearer " + jwt.sign(newUser._id),
         };
     },
-    loginAccount: async (_: any, args: any) => {
-        const { email, password } = args.user;
-        const account = await UserModel.findOne({ email });
-        if (!account) {
-            return {
-                status: 400,
-                error: "Wrong email",
-            };
-        }
-        const checkPassword = await bcrypt.compare(password, account.password);
+    loginAccount: async (_, args, context) => {
+        if (context.status === 400) return context;
+        else {
+            const { email, password } = args.user;
+            const account = await UserModel.findOne({ email });
+            if (!account) {
+                return {
+                    status: 400,
+                    error: "Wrong email",
+                };
+            }
+            const checkPassword = await bcrypt.compare(
+                password,
+                account.password
+            );
 
-        if (!checkPassword) {
+            if (!checkPassword) {
+                return {
+                    status: 400,
+                    error: "Wrong password",
+                };
+            }
             return {
-                status: 400,
-                error: "Wrong password",
+                status: 200,
+                token: "Bearer " + jwt.sign(account._id),
             };
         }
-        console.log(account._id.toJSON());
-        return {
-            status: 200,
-            token: "Bearer " + jwt.sign(account._id),
-        };
     },
 };
 
