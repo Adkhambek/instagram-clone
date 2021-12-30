@@ -7,5 +7,5 @@ type Query {
 type Mutation {
     createAccount(user: UserCreateInput!): Signup!
     loginAccount(user: UserLoginInput!): Token!
-    confirmationCode(code: Int!): Token!
+    confirmationCode(email: String!, code: Int!): Token!
 }

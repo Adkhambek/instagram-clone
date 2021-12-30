@@ -2,7 +2,7 @@ import UserModel from "../../../models/UserModel";
 import bcrypt from "../../../utils/bcrypt";
 import jwt from "../../../utils/jwt";
 import { randomNumber } from "../../../utils/randomNumber";
-import { Resolvers, User } from "../../../types";
+import { Resolvers, User, Confirmation } from "../../../types";
 import { sendMail } from "../../../services/nodemailer";
 
 const userMutations: Resolvers = {
@@ -39,6 +39,12 @@ const userMutations: Resolvers = {
                 error: "Wrong email",
             };
         }
+        if (!account.confirmed) {
+            return {
+                status: 400,
+                error: "You have not confirmed yet",
+            };
+        }
         const checkPassword = await bcrypt.compare(password, account.password);
 
         if (!checkPassword) {
@@ -53,12 +59,19 @@ const userMutations: Resolvers = {
         };
     },
     confirmationCode: async (_, args) => {
-        return true;
-
-        // return {
-        //     status: 201,
-        //     token: "Bearer " + jwt.sign(newUser._id),
-        // };
+        const { email, code } = args as Confirmation;
+        const user = await UserModel.findOne({ email });
+        if (user.code !== code) {
+            return {
+                status: 400,
+                error: "Wrong code",
+            };
+        }
+        await UserModel.findOneAndUpdate({ email }, { confirmed: true });
+        return {
+            status: 201,
+            token: "Bearer " + jwt.sign(user._id),
+        };
     },
 };
 

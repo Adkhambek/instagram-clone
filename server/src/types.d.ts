@@ -25,6 +25,11 @@ export interface User {
     password: string;
 }
 
+export interface Confirmation {
+    email: string;
+    code: number;
+}
+
 export type Mail = {
     host: string;
     port: number;
