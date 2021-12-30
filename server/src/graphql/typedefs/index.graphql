@@ -5,6 +5,7 @@ type Query {
 }
 
 type Mutation {
-    createAccount(user: UserCreateInput!): Token!
+    createAccount(user: UserCreateInput!): Signup!
     loginAccount(user: UserLoginInput!): Token!
+    confirmationCode(code: Int!): Token!
 }

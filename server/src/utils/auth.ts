@@ -1,7 +1,8 @@
 import jwt from "./jwt";
 import UserModel from "../models/UserModel";
-import {promisify} from "util";
-export const protectedResolver = (token: string) => {
+import { Object } from "../types";
+
+export const protectedResolver = async (token: string) => {
     let userId: string | undefined;
     if (token && token.startsWith("Bearer")) {
         userId = token.split(" ")[1];
@@ -13,18 +14,15 @@ export const protectedResolver = (token: string) => {
         };
     } else {
         try {
-            interface JwtPayload {
-                id: string;
-            }
-            const { id } = jwt.verify(userId) as JwtPayload;
-            const user = UserModel.findById(id);
+            const { id } = jwt.verify(userId) as Object;
+            const user = await UserModel.findById(id);
             if (!user) {
                 return {
                     status: 400,
                     error: "The user belonging to this token does no longer exist.",
                 };
             } else {
-                return id;
+                return user;
             }
         } catch (error) {
             if (error.name === "JsonWebTokenError") {
@@ -32,7 +30,7 @@ export const protectedResolver = (token: string) => {
                     status: 400,
                     error: "Invalid token. Please, log in again!",
                 };
-            } 
+            }
             if (error.name === "TokenExpiredError") {
                 return {
                     status: 400,

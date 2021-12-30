@@ -4,8 +4,8 @@ import { protectedResolver } from "../utils/auth";
 
 const apolloServer = new ApolloServer({
     schema,
-    context: async ({ req }) =>
-        await protectedResolver(req.headers.authorization as string),
+    context: ({ req }) =>
+        protectedResolver(req.headers.authorization as string),
 });
 
 export default apolloServer;

@@ -19,6 +19,12 @@ type Token {
     error: String
 }
 
+type Signup {
+    status: Int!
+    mail: String
+    error: String
+}
+
 input UserCreateInput {
     email: String!
     fullName: String

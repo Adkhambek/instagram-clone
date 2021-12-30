@@ -1,3 +1,11 @@
+export interface JwtPayload {
+    id: string;
+}
+
+export type Object = {
+    [key: string]: any;
+};
+
 type Context = {
     status: number;
     token?: string | null;
@@ -16,3 +24,14 @@ export interface User {
     username?: string;
     password: string;
 }
+
+export type Mail = {
+    host: string;
+    port: number;
+    user: string;
+    pass: string;
+};
+
+export type MailSend = {
+    [key: string]: string;
+};
