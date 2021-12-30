@@ -1,10 +1,11 @@
 import UserModel from "../../../models/UserModel";
 import bcrypt from "../../../utils/bcrypt";
 import jwt from "../../../utils/jwt";
+import { Resolvers, User } from "../../../types";
 
-const accountMutations = {
+const accountMutations: Resolvers = {
     createAccount: async (_, args) => {
-        const { email, fullName, username, password } = args.user;
+        const { email, fullName, username, password } = args.user as User;
         const newUser = await UserModel.create({
             email,
             fullName,
@@ -19,7 +20,7 @@ const accountMutations = {
     loginAccount: async (_, args, context) => {
         if (context.status === 400) return context;
         else {
-            const { email, password } = args.user;
+            const { email, password } = args.user as User;
             const account = await UserModel.findOne({ email });
             if (!account) {
                 return {
