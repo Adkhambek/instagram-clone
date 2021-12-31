@@ -9,4 +9,6 @@ type Mutation {
     loginAccount(user: UserLoginInput!): Token!
     confirmationCode(email: String!, code: Int!): Token!
     resendCode(email: String!): Resend!
+    forgotPassword(email: String!): Token!
+    resetPassword(password: String!, token: String!): Token!
 }

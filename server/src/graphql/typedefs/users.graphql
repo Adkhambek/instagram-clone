@@ -17,6 +17,7 @@ type Token {
     status: Int!
     token: String
     error: String
+    message: String
 }
 
 type Signup {

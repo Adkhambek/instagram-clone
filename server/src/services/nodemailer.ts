@@ -14,11 +14,12 @@ export const sendMail = async (opt: MailSend) => {
         },
     });
 
-    await transporter.sendMail({
+    let info = await transporter.sendMail({
         from: user,
         to: opt.receiver,
         subject: opt.subject,
         text: opt.text,
         html: opt.html,
     });
+    console.log(info);
 };

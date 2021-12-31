@@ -7,6 +7,7 @@ export default {
     saltRounds: 10,
     secretKey: process.env.SECRET_KEY,
     expiresIn: process.env.JWT_EXPIRE,
+    baseUrl: process.env.BASE_URL,
     zohoMail: {
         host: process.env.MAIL_HOST,
         port: Number(process.env.MAIL_PORT),
