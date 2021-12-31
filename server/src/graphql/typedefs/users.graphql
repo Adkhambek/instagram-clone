@@ -25,6 +25,11 @@ type Signup {
     error: String
 }
 
+type Resend {
+    status: Int!
+    message: String!
+}
+
 input UserCreateInput {
     email: String!
     fullName: String

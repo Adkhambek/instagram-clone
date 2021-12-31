@@ -2,12 +2,11 @@ import UserModel from "../../../models/UserModel";
 import bcrypt from "../../../utils/bcrypt";
 import jwt from "../../../utils/jwt";
 import { randomNumber } from "../../../utils/randomNumber";
-import { Resolvers, User, Confirmation } from "../../../types";
+import { Resolvers } from "../../../types";
 import { sendMail } from "../../../services/nodemailer";
 
 const userMutations: Resolvers = {
-    createAccount: async (_, args) => {
-        const { email, fullName, username, password } = args.user as User;
+    createAccount: async (_, { email, fullName, username, password }) => {
         const codeNumber = randomNumber(100000, 999999);
         const newUser = await UserModel.create({
             email,
@@ -30,8 +29,7 @@ const userMutations: Resolvers = {
             mail: newUser.email,
         };
     },
-    loginAccount: async (_, args) => {
-        const { email, password } = args.user as User;
+    loginAccount: async (_, { email, password }) => {
         const account = await UserModel.findOne({ email });
         if (!account) {
             return {
@@ -58,8 +56,7 @@ const userMutations: Resolvers = {
             token: "Bearer " + jwt.sign(account._id),
         };
     },
-    confirmationCode: async (_, args) => {
-        const { email, code } = args as Confirmation;
+    confirmationCode: async (_, { email, code }) => {
         const user = await UserModel.findOne({ email });
         if (user.code !== code) {
             return {
@@ -67,10 +64,40 @@ const userMutations: Resolvers = {
                 error: "Wrong code",
             };
         }
+        if (user.confirmed) {
+            return {
+                status: 400,
+                error: "You have already confirmed",
+            };
+        }
         await UserModel.findOneAndUpdate({ email }, { confirmed: true });
         return {
             status: 201,
             token: "Bearer " + jwt.sign(user._id),
+        };
+    },
+    resendCode: async (_, { email }) => {
+        const user = await UserModel.findOne({ email });
+        if (user.confirmed) {
+            return {
+                status: 200,
+                message: "You have already confirmed",
+            };
+        }
+        const codeNumber = randomNumber(100000, 999999);
+        await UserModel.findOneAndUpdate(email, { code: codeNumber });
+        await sendMail({
+            receiver: email,
+            subject: `${codeNumber} is your Instagram code`,
+            text: "",
+            html: `Hi,
+            Someone tried to sign up for an Instagram account with ${email}. If it was you, enter this confirmation code in the app:
+            <h1>${codeNumber}</h1>
+            `,
+        });
+        return {
+            status: 200,
+            message: "Code was sent to your email. Please, check it.",
         };
     },
 };

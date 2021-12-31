@@ -8,4 +8,5 @@ type Mutation {
     createAccount(user: UserCreateInput!): Signup!
     loginAccount(user: UserLoginInput!): Token!
     confirmationCode(email: String!, code: Int!): Token!
+    resendCode(email: String!): Resend!
 }
