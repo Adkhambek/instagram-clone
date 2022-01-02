@@ -5,31 +5,36 @@ import { randomNumber } from "../../../utils/randomNumber";
 import { Resolvers, Object, User } from "../../../types";
 import { sendMail } from "../../../services/nodemailer";
 import keys from "../../../config/keys";
+import { errorHandler } from "../../../utils/errorHandler";
 
 const userMutations: Resolvers = {
     createAccount: async (_, args) => {
         const { email, fullName, username, password } = args.user as User;
         const codeNumber = randomNumber(100000, 999999);
-        const newUser = await UserModel.create({
-            email,
-            fullName,
-            username,
-            password: await bcrypt.hash(password),
-            code: codeNumber,
-        });
-        await sendMail({
-            receiver: newUser.email,
-            subject: `${codeNumber} is your Instagram code`,
-            text: "",
-            html: `Hi,
-            Someone tried to sign up for an Instagram account with ${newUser.email}. If it was you, enter this confirmation code in the app:
-            <h1>${codeNumber}</h1>
-            `,
-        });
-        return {
-            status: 201,
-            mail: newUser.email,
-        };
+        try {
+            const newUser = await UserModel.create({
+                email,
+                fullName,
+                username,
+                password: await bcrypt.hash(password),
+                code: codeNumber,
+            });
+            await sendMail({
+                receiver: newUser.email,
+                subject: `${codeNumber} is your Instagram code`,
+                text: "",
+                html: `Hi,
+                Someone tried to sign up for an Instagram account with ${newUser.email}. If it was you, enter this confirmation code in the app:
+                <h1>${codeNumber}</h1>
+                `,
+            });
+            return {
+                status: 201,
+                mail: newUser.email,
+            };
+        } catch (err) {
+            return errorHandler(err);
+        }
     },
     loginAccount: async (_, args) => {
         const { email, password } = args.user as User;
@@ -135,19 +140,23 @@ const userMutations: Resolvers = {
         };
     },
     resetPassword: async (_, { password, token }) => {
-        const { id } = jwt.verify(token) as Object;
-        await UserModel.findByIdAndUpdate(
-            id,
-            { password },
-            {
-                new: true,
-                runValidators: true,
-            }
-        );
-        return {
-            status: 200,
-            message: "Password updated successfully",
-        };
+        try {
+            const { id } = jwt.verify(token) as Object;
+            await UserModel.findByIdAndUpdate(
+                id,
+                { password },
+                {
+                    new: true,
+                    runValidators: true,
+                }
+            );
+            return {
+                status: 200,
+                message: "Password updated successfully",
+            };
+        } catch (err) {
+            return errorHandler(err);
+        }
     },
 };
 
