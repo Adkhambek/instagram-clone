@@ -8,10 +8,9 @@
         "lib": "lib"
     },
     "scripts": {
-        "start": "node dist",
-        "dev": "nodemon dist",
-        "copy": "copy-and-watch --watch src/**/*.graphql dist/",
-        "watch": "tsc -w"
+        "start": "npm run copy && tsc && node dist",
+        "dev": "ts-node-dev src/index.ts",
+        "copy": "copy-and-watch src/**/*.graphql dist/"
     },
     "keywords": [],
     "author": "",
@@ -38,6 +37,7 @@
         "@types/nodemailer": "^6.4.4",
         "copy-and-watch": "^0.1.6",
         "cross-env": "^7.0.3",
+        "ts-node-dev": "^1.1.8",
         "typescript": "^4.5.4"
     }
 }

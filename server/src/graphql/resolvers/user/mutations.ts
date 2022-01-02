@@ -155,6 +155,7 @@ const userMutations: Resolvers = {
                 message: "Password updated successfully",
             };
         } catch (err) {
+            console.log(err);
             return errorHandler(err);
         }
     },
