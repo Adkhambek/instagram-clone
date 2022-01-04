@@ -20,6 +20,22 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: [true, "Password is required"],
         },
+        followers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        following: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        image: {
+            type: String,
+            default: "default.jpg",
+        },
         code: Number,
         confirmed: {
             type: Boolean,

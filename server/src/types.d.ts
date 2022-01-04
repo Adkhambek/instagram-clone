@@ -10,6 +10,7 @@ type Context = {
     status: number;
     token?: string | null;
     error?: string | null;
+    _id?: any;
 };
 
 type Resolver = (root: any, args: any, context: Context, info: any) => any;

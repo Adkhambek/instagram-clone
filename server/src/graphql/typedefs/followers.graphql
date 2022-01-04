@@ -1,0 +1,12 @@
+type Followers {
+    _id: String
+    fullName: String
+    username: String
+    image: String
+}
+
+type Following {
+    status: Int!
+    message: String
+    error: String
+}

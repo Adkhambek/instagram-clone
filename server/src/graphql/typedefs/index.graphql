@@ -2,6 +2,7 @@ scalar Date
 
 type Query {
     users: [Users]!
+    followers: [Followers]!
 }
 
 type Mutation {
@@ -11,4 +12,5 @@ type Mutation {
     resendCode(email: String!): Resend!
     forgotPassword(email: String!): Token!
     resetPassword(password: String!, token: String!): Token!
+    following(username: String!): Following!
 }
