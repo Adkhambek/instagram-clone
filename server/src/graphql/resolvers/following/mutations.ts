@@ -11,6 +11,7 @@ const followingMutations: Resolvers = {
                 _id: context._id,
                 "following._id": followingUser._id,
             });
+            // stop at this position: checking follower exists or not
             console.log(checkFollowerExist);
             await UserModel.updateOne(
                 { _id: context._id },
